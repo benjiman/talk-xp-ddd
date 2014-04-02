@@ -17,6 +17,9 @@
 
 		<!-- For syntax highlighting -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
+		<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+
+		<link href='http://fonts.googleapis.com/css?family=Ubuntu:300,400' rel='stylesheet' type='text/css'>
 
 		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
 		<script>
@@ -56,7 +59,7 @@
 				</section>
 				<section>
 					<h2>Slide with code</h2>
-					<pre lang="java">
+					<pre lang="java" class="prettyprint">
 public static void main(String... args) {
 }
 </pre>
@@ -75,11 +78,20 @@ public static void main(String... args) {
 				
 				<section class="big">
 					<h2>Much code</h2>
-					<pre lang="java">
+					<pre lang="java" class="prettyprint">
 public static void main(String... args) {
 }
 </pre>
 				</section>
+								
+				<section style="background-image: url('bigimage.png'); background-repeat: no-repeat; background-position: center">
+					<h2 style="color: gray">Background image</h2>
+				</section>
+				
+				<section style="background-image: url('bigimage.png'); background-repeat: no-repeat; background-position: center; background-size:100% 100%;">
+					<h2 style="color: gray">Stretched Background image</h2>
+				</section>
+				
 				<section>
 					<h2>Questions?</h2>
 				</section>
