@@ -1,0 +1,150 @@
+Hello all. Thanks for coming. I would like to tell you about some of my experiences striving to use domain driven design, in an environment where everything was constantly changing around us.
+
+My name is benji weber. I am a software developer based in London. You can see my blog for some of the things I'm interested in. I'm @benjiweber on twitter if you want to heckle me.
+
+I became interested in domain driven design about 8 years ago. At the time I was working for a large "enterprise" company. I observerd that we were building things that were hard to maintain, and often re-writing things from scratch that weren't that old. I was frustrated by how much complexity was present even in systems with relatively simple functionality. I read Eric Evans' domain driven design book and found it immensely helpful. Though there was little I could do as a relatively junior developer to influence such a large organisation.
+
+Not long afterwards, I joined Unruly, where I work at present. I was attracted by the use of Extreme Programming and the amount of care about the quality of the software they were building. Unruly is a "Marketing Technology" company. We build tools for marketing, from ad distribution, to analytics tools to help brands track the popularity of their content online.
+
+When I joined Unruly there were about 12 employees in a single office. We grew rapidly to ~120 over several offices worldwide in a couple of years. The tech team had proportional growth from 3 to about 30. I think Unruly's at about 160 people now. As you might expect, this growth was not without challenges. Its affect on software design is partly what I want to talk about today.
+
+
+This talk is in two halves. I'd first like to talk about why I see domain driven design as important in the context of Extreme Programming, in an environment such as ours. I'd then like to share some experiences we've had of design sucess and mistakes and things we've learnt along the way. And we've made plenty of mistakes.
+
+But before we get started it would be helpful enough to know a little about you. How many of you are familar with "Extreme Programming", maybe you've read this book by Kent Beck? Hands up. And how many have used it in practice? Ok. And how many people have read Eric Evans' Domain Driven Design book? and what about Implementing Domain Driven Design by Vaughn Vernon? This book would have been really useful a few years ago, it's very practical, it might have helped us avoid some of the mistakes I'll talk about shortly. Evans' origianl DDD book is still one of my favourite tech books, and I've read quite a lot. It's just packed full of wisdom on all kinds of topics, from successful communication with customers, to good object oriented design, to team interactions.
+
+Right. How does domain driven design fit in with extreme programming? Firstly I should explain extreme programming briefly for those who weren't familar with it. Extreme Programming (also known as XP) is a development methodology which gives us a set of technical practices such as test driven development, continuous integration, and pair programming - we pair on all production code; as well as team practices such as having an accessible customer, having our work prioritised regularly. One of the XP "rules" is "fix XP when it breaks", which we do via regular team retrospectives and trying new things, so our actual processes change over time & you might not recognise what we do as exactly the XP from Kent Beck's book.
+
+One of the extreme programming values is embrace change. We have had a lot of change as we've grown. We also embrace change in other ways. We have no development projects of the style seen in bigger companies. We work on products, and are trying to constantly be adding the most valuable functionality to each product. What we're working on can change drastically from one week to the next.
+
+We continuously deliver increments of software to production, multiple times a day. On a good day each pair of developers might release to production 5 or 6 times. In some cases we've gone from having an idea in the morning to having it released in production making money in just a couple of ideas. If you're intrigued by how we can manage that then come back tomorrow when my colleague Alex and myself are going to talk about our approach to continuous delivery. For now, I just want to make the point that things change rapidly and are in constant flux. 
+
+There is still more disruption introduced by other extreme programming practices such as pair rotation. We pair on all production code. But if a pair has been working together for more than a few hours we'll swap around who is pairing with whom, so that the whole team understands how everything works, and we're not stuck in the same pairs for too long, as much fun as pairing is it can tiresome.
+
+Now, you might be thinking this doesn't sound like the ideal environment to come up with elegant designs and models. And to some extent you'd be right. Each developer is only working on a feature for a few hours. We're working in tiny chunks of work which we release ever hour or two, so there's not a lot of time. We also had, and to some extent still do have the problems of being a smaller organisation. The organisation changes direction so designs do not remain valid for long, there's a lack of people with domain knowledge to draw on. Particularly where we're working in relatively new domains. You might want to not apply DDD in this environment.
+
+But what does extreme programming say about design? Why doesn't it always result in a mess? One of the XP values is simplicity. We always strive to find the simplest possible solution to fulfil the requirements we have. People often confuse simplest with the easiest, but the simplest solution is rarely the easiest. What it does mean is we avoid complicating things we're building to fulfil requirements that we think we might have in the future.
+
+XP also suggests that we should improve our designs incrementally, and ruthlessly refactor to ensure we always have the best design.	
+
+In XP Explained, Kent Beck says "Invest in the design of the system every day. Strive to make the design of the system an excellent fit for the needs of the system that day. When your understanding of the best possible design leaps forward, work gradually but persistently to bring the design back into alignment with your understanding".
+
+This is quite challenging. I certainly don't manage to do this every day. But the idea is that we design systems to fulfil the requirements we have have implemented thus far, plus the one we are implementing now. Based on that set of requirements, what is the best design? Ignoring what may happen in the future. When we move onto the next story we re-evaluate and refactor as necessary. This way we're not wasting time on speculative designs for speculative features, and can keep designs simpler.
+
+But how does this fit in with Domain Driven Design. Well Evans gives a clue in his book. He says "In the 12 practices of Extreme Programming, the role of a System Metaphor could be fulfiled by an Ubiquitous Language. Projects should augment that language with System Metaphors or other large scale structures when they find one that fits well.
+
+Now there are a couple of terms here that I haven't introduced. The idea of a system metaphor comes from the first edition of extreme programming explained. In the C3 project which birthed extreme programming the team was building a payroll processing system, but they apparently used the metaphor of a production line throughout the code, and in team discussions to make it easier to understand. It was a metaphor that made up part of the every-day language of the team. 
+
+The other term here is Ubiquitous Language, which I think is really the central idea in domain driven design. It is the idea that the same language, and terminology should be used in all aspect of development. From discussions with customers to the code. 
+
+Evans is suggesting that such a shared language can be used in place of an artificial system metaphor. The best way of modelling a concept is to use the so called naive metaphor - the same language used every day. But Evans makes the point that metaphors may be needed to augment a language. 
+
+So why bother will all of this? Well one of the things we value highly is collaborating with customers. This is essential to building the right thing. Otherwise however technically brilliant what we build is, it won't provide any value. 
+
+Now to communicate effectively we need to be speaking the same language. On Star Trek a diverse team of various species who all speak different languages is able to explore the galaxy and perform diplomatic missions. They are only able to do this because of a piece of technology called the Universal Translator. This wonderful piece of tech allows them to understand eachother in real-time, just as if the were speaking in the same language.
+
+When people get involved in translation things often go wrong. In my experience having a person on the team to translate the langauge of the business into a language the developers speak leads to trouble. This was the guy doing nonsense sign language translation at Nelson Mandella's memorial. Just making things worse. 
+
+This is one of my favourite examples of how things can go wrong when people who are building things don't speak the same language as those who feed them requirements. It's a road sign from Wales in the UK. For those of you who haven't been to wales, all road signs have to be written in both English and Welsh. Hopefully you can read the top part of the sign. Underneath it says something like "I am currently out of the office, please send any work for translation". The sign builder understood how to build signs, and implement things spoon fed to him or her, but due to not actually speaking the same language there was a misunderstanding and we ended up with this.
+
+But understanding the same words isn't sufficient either. Does anyone recognise this episode? It's from a Star Trek episode called "Darmok". In this episode Captain Picard is stranded on an island with this alien. The universal translator is working as normal. They can understand the words that each other are saying, but it sounds like gibberish. Long story short, this alien communicates entirely through metaphors. They will say things like "Shaka, where the walls fell" to refer to the concept of dissapointment. Shaka being a person from their history, and where the walls fell referring to an event that happened to him. If you know their history you'll understand the point. It is much the same idea as internet memes. The point being that knowing the language isn't enough to build the right thing, we need to understand the wider context of the domain. To apply that to ourselves, I think that means reading industry books, talking to users, attending non-technical industry events. We need to get out of our tech bubble. 
+
+Undersanding and even using the right language in discussions isn't enough either. I can barely remember what I had for breakfast, let alone the inticracies of a domain discussion from 6 months ago. How do we make the knowledge permanent? This guy knew. This is a quote from a few thousand years ago by a guy called Job, recorded in the Bible. For knowledge to become permanent it needs to be written down, otherwise it is transient. We value working software over documentation, so where do we have to write down our domain knowledge? In the code. 
+
+We also have our tests. These are another opportunity to express domain knowledge and behaviour. Often tests end up like specificiations of implementation behaviour, but we should apply the same design principles we apply to our code so that our tests read in the domain language. This is one of the things we have had most success with, which I'll come onto.
+
+We're often quite fortunate in that we're often implementing software that automates an existing manual process - this is a self driving car - in this case there's already an existing rich language of jargon and metaphors that we can draw on and use for our software.
+
+On the other hand sometimes we're working in a very technical domain, with no existing language to draw on. This is an example of when we might need to create our own ubiquitous language, with appropriate use of metaphor. For example, my team recently built something using Cascading, which is a framework on top of hadoop. Cascading uses the metaphor of plumbing throughout its code and it really does make it easier to understand. There are taps which are sources of data, sinks which is where data flows to, and pipes that connect things together.
+
+In our domain of advertising we are often using terms and metaphors drawn from auction houses. We have auctions, bids, floor prices etc.
+
+
+Anyhow, enough about theory. Let's talk about some mistakes I made with this over the years, what we've learnt, and finish on a positive note with experience of it being really useful.
+
+
+For too long we were blind to where we should have been introducing bounded contexts. We ended up with a huge model with well over a hundred classes, which was obviously a smell. We were also finding that conversations with users were becoming hard. Naming things was also becoming hard.
+
+Other developers noted that using the same terminology as our customers wasn't working because non technical people use terms imprecisely, but the nature of software means we have to encode them precisely. What we were missing was that generally people do use terms quite precisely. They just may use the same word to mean different things in different contexts. It was the context that we were too often failing to encode. 
+
+The best example of this is the use the verb to pay, or payments in our system. To our finance team this means actually transferring some money to a publisher, thus decreasing the amount that we owe the publisher. To our ad operations team, however, paying a publisher  involves compensating them for ad views or other services. Which actually increases the amount we owe the publisher. In two contexts the same terminology means literally the opposite thing.
+
+As we started to realise the problem we undertook some refactoring to split our model up along contextual boundaries. One interesting observation is that contexts ended up closely matching personas that we were aware of from our user stories and discussions with users. e.g. we ended up with a model for configuration of ad campaigns, which aligned closely with our ad operations persona. Similarly we had a financial model which aligns with our finance team.
+
+A contributing factor to this was probably the size of the team. The team had edged just over 10 people. With so many people it's harder to spot differences in understanding between different contexts and for contexts to get blurred. We shortly after split the team up, and had some better experiences. For example two teams both have a concept of a Creative. To one team it means a collection of assets and configuration that make up an ad. To the other team it means a collection of de-duplicated pieces of video content. When we came to work on unified reporting across both systems, we realised that we meant different things by the term and that we needed to think of the reporting system as another context rather than trying to unify the others. Conway's law suggests that the software we build resembles the communication structures in our organisation, and that certainly seems to be our experience. So consider the effect of your team structure on your design.
+
+Another example of things going rather wrong. We heard what our users asked for, but didn't really listen to them. We had the concept - as you might expect for an advertising company - the concept of an Ad in our model. One day, we had an odd request from our ad operations team to rename everywhere it was referred to in text throughout the system to "Subcampaign". Subcampaign meaning a component part of an ad campaign. Now, this is probably ringing alarm bells for you already. What we should have done was investigate further and find out why they wanted this, and refactored the system to be in line with our new shared understanding of the domain. Unfortunately, that's not what we did. We buried our heads in the sand, and went ahead and did what they asked. It wasn't long before we started paying the price. We started getting asked for odd things, that didn't fit our understanding of the model at all. A lot of requirements were like people asking for faster horses instead of cars. We weren't helping them understand what was possible.
+
+Now there were other signs that something was wrong. There were code smells. This subcampaign started turning into a God-object that did anything and everything. And there were the odd requirements. However, the first clue that something was wrong was our vocabulary diverging from our customers.
+
+So why did we stick our head in the sand like this?
+
+I think part of it has todo with the state of our codebase at the time. I think deep down we knew we needed to do some serious refactoring, but there was a lot of resistance to refactoring. We had a lot of unit tests that used mocks in such a way that every test was asserting a lot of behaviour about the implementation. We also had ingrained use of various frameworks. Our model was coupled to hibernate via XML which we didn't have refactoring tools for at the time, we also had a templating framework pulling data out of our model via reflection which was also not compatible with our tooling. Classnames had even ended up hidden in database tables for security frameworks.
+
+So what did we learn. First, really listen to your users. Ask the questions you don't want to know the answers to, and act on your learnings. Why was our refactoring hard, yes there were technical problems. But the underlying reason there were technical problems was that we hadn't been performing large scale refactorings often enough. There's an XP principle that if something hurts, do it more often. If we had been refactoring regularly, the pain would have taught us to not do the things that made it hard. As we started to refactor more we learnt to decouple things from our frameworks, avoiding reflection, and move our tests towards having a single assertion per test so changing any aspect of behaviour only breaks a single test.
+
+Another lesson we've learnt the hard way is that we worried too much about consistency. We wanted to use the same terminology throughout all our code/data/systems. We were repulsed by the idea that we'd have 3 different terms for the same thing. 
+
+The trouble is that we can never keep up with the rate at which the business can change. No matter how agile we are, marketing are always more agile. They can change terminology overnight, and it's not just words. Words change the perception of things outside the organisation, and also within. As people's perception changes the desired behaviour changes as well. So we want to keep up as best we can. 
+
+The trouble is, some things are just inherently difficult to change. Terms leak sometimes into URLs, and good URLs never change. Terms get into databases, and we have some quite large datasets, that can take days just to update online. For several things we put off updating our model because we wanted to maintain internal consistency in our systems until we could change all of these things at once.
+
+It's often said that perfect is the enemy of the good. We found that we would never actually get round to changing things if we waited to have to time to update absolutely everything. Instead it seems more effective to focus on keeping the core code model up to date, it's what helps us communicate effectively. We can then have a translation layer in the code which helps document the fact that there are older terms in use for the same things.
+
+Another problem we ran into was trying too hard to avoid duplicating code. Our analytics system was composed of several separate services that had extremely similar models. At some point we made these separately deployable artifacts and had a versioned shared library between them that contained our entities amongst other things. The idea being to make deployments faster by not having to deploy so much if our change only affected one service. Some of you can probably guess the problem we ran into. We effectively had shared state between services which was being modified by different versions of object behaviour. I mentioned earlier about how frequently we like to deploy. Were we testing all possible permutations of the model code versions before releasing? Of course not. It wasn't long before the inevitable happened and one service generated an object graph that was incompatible with another production service. We had system used internally to tag up video data sources as associated with a particular brand. Another system had an association between videos and brands, and these conflicted. 
+ 
+When we actually looked at it more carefully we realised it was another case of contextual blindness. There were subtle differences in behaviour of the same concepts in different contexts. When collecting data about a Video it behaves differently to when we are providing data visualisations for that video.
+
+We learnt that we shouldn't version artifacts in production. If we make a change to something shared we need to re-deploy everything effected. This is true continuous integration. We'll discuss this in more detail in our talk tomorrow.
+
+We also learnt to deploy often. The pain from slow deploys forces us to recognise where we are missing contextual boundaries.
+
+It isn't also development problems that we've run into by mis-applying domain driven design. Also performance problems due to not thinking about our aggregate boundaries enough. 
+
+I don't know if this is a familiar pattern to you. Web request comes in. We load a massive object graph off disk from the database. Make a small change to it, which involves loading even more data from the database, and then persist it back to disk. Then send a response. This works quite well with small object graphs but as things scale it can become a problem. We made assumptions like any one publisher will only be responsible for a small number of web sites, which are completely invalidated by large blogging platforms. Suddenly we were loading several megabytes of data for every operation, with dozens of database queries. 
+
+All this was being hidden from us because we were using, or misusing an ORM, which allowed us to ignore where we ought to place aggregate boundaries. We could ignore the performance penalties of operations that span aggregates because with lazy loading they look like just a method call. It was only if you started looking at the database or using a profiler that you could see what was really going on.
+
+From this we eventually learnt to avoid magical lazy loading provided by ORMs, and to try to make calls with performance implications explicit by making the consuming code look up values using identifiers rather than just making method calls.
+
+
+The last few examples may seem a bit negative so I thought I'd finish with some anecdotes of things working well. My most memorable example of this working well was when we were working on a feature to allow us to track when people who had watched our ads went on to make a purchase. We were struggling to implement a requirement to record purchases against the most recent ad that the user had been exposed to, it didn't seem possible. As we usually do when we are stuck like this we had a team huddle to discuss the problem. We sketched up the model on the board in sort of pseudo uml. We weren't really getting anywhere and at some point we decided to pull in someone from our ad operations team who has worked with this tracking in the past. So we went upstairs, brought him down to join our huddle. We started to explain the problem to him and then he noticed our sketch on the whiteboard. "Why have you joined Ads and TrackingPixels together?" he asked, I send out the tracking pixels before we create the ads.
+
+Thus our problem was solved. We had the tracking pixels in the wrong place in our model. Because we were using the domain language the problem was obvious to someone who wasn't even in the team. We were all looking around at the details to coerce the implementation into working, while ignoring the problem that our model was wrong. Just like this guy, trying to see what's wrong with his engine while the car is in the middle of a lake.
+
+Another example, we were working on implementing an algorithm to predict the popularity of videos in the future, based on some work by our data insights team. We had implemented the model itself, and well unit tested it. We had yet to integrate it with the visualisations in the user interface or our data transformation jobs that would utilise it, but we wanted to increase our confidence that it was correct before we moved on.
+
+So we went and pulled in the customer for this feature from our data team, and actually sat him down in front of his code. He wasn't the most technical person but is familiar with using spreadsheets, but he was able to follow our code from our tests, see that our tests matched up with the behaviour he was expecting, and even modify the inputs and outputs to convince himself it was working as he expected. Tests in the domain language can be a powerful communication tool.
+
+Another example - we had an ad ops guy over from one of our overseas office. He was skeptical about the workings of a feature we had built some time ago. He didn't believe it worked in the way we said it did. Since he was over we took the opportunity of showing him our acceptance tests for our ad units. Since they are written in the same language that adops use for the visual elements - he was able to understand how it works.
+
+Right. To wrap up. In summary. We've grown really fast and move really fast, it makes design hard but I really think Domain Driven Design helps with communication. That said, it's hard to do well and we have made loads of mistakes, and I'm sure they won't stop here. 
+
+If I had to pick 4 key points that I think help. They'd be: Do painful things more often, you'll find they become less painful. Treat frameworks with suspicion, what do they make hard? Continually integrate & release your changes, you'll notice problems earlier, and finally it's all about conversations. The more you are talking to customers and users, the more you are surrounding yourself in the domain the more likely you are to understand what you are building and build the right thing, well.
+
+Thanks so much for listening. Do we have time for questions? Otherwise I will hang around outside afterwards.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

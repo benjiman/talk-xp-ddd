@@ -38,11 +38,41 @@ body {
 	margin-left: -500px !important;
 }
 
+h2 {
+	font-size: 280% !important;
+}
+
+p {
+	font-size: 150% !important;
+}
+
+p.quote {
+	font-style: italic;
+	margin: 20px !important;
+	text-align: center;
+}
+
+p.short {
+	font-size: 180% !important;
+}
 
 section.big > h2:first-child {
 	margin-top: 0;
 }
 
+section.divider {
+	background-color: black;
+}
+p.mid {
+	text-align: center !important;
+	
+	margin-left: 0 !important;
+}
+section.divider > h2 {
+  color: white;
+  text-shadow: 0 2px 2px rgba(1, 1, 1, .5); 
+  font-size: 450% !important;
+}
 .slides h1:first-child
 {
 	margin-top: 100px;	
@@ -50,8 +80,9 @@ section.big > h2:first-child {
 
 .slides h2:first-child
 {
-	margin-top: 200px;	
+	margin-top: 180px;	
 }
+
 
 
 .reveal {
@@ -67,6 +98,33 @@ section.big > h2:first-child {
   color: white;
   background: #26351c;
   text-shadow: none;
+}
+
+h1 {
+    text-align: left;
+    margin-top: 40px !important;
+}
+
+h1 > .indent {
+  display: inline-block;
+  margin-left: 0.88em;
+}
+
+br.bigger {
+ line-height: 1.2em; 
+}
+
+.summary > p {
+	font-size: 220% !important;
+}
+
+.divider > p {
+	color: white;
+}
+.twitter {
+  text-align: right;
+  font-size: 150% !important;
+  margin: 60px 0 0 0 !important;
 }
 
 /*********************************************
@@ -85,6 +143,30 @@ section.big > h2:first-child {
 
 .reveal h1 {
   text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
+}
+
+p {
+	text-align: left;
+	margin-left: 180px !important;
+	margin-top: 50px !important;
+}
+
+p.narrow {
+	margin-left: 280px !important;
+}
+
+span.indent {
+	margin-left: 0.5em;
+}
+
+span.indenttwo {
+	margin-left: 1.1em;
+}
+span.indenteight {
+	margin-left: 3.5em;
+}
+p.lessleft {
+	margin-left: 140px !important;
 }
 
 /*********************************************
