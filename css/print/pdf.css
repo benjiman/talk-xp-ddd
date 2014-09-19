@@ -24,6 +24,7 @@ body {
 	float: none !important;
 	overflow: visible;
 	background-image: none;
+	background-color: #000;
 }
 
 html {

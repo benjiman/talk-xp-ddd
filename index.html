@@ -12,18 +12,18 @@
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/benji.css" id="theme">
-
+		<script>
+			document.write( '<link rel="stylesheet" href="css/' + ( window.location.search.match( /print/gi ) ? 'notyours' : 'reveal' ) + '.css" id="theme">' );
+			document.write( '<link rel="stylesheet" href="css/theme/' + ( window.location.search.match( /print/gi ) ? 'benji' : 'benji' ) + '.css" id="theme">' );
+		</script>
 		<!-- For syntax highlighting -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
-		<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
 
 		<link href='http://fonts.googleapis.com/css?family=Ubuntu:300,400' rel='stylesheet' type='text/css'>
 
 		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
 		<script>
-			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+			document.write( '<link rel="stylesheet" href="css/print/benji-print.css" type="text/css" media="print">' );
 		</script>
 
 		<!--[if lt IE 9]>
@@ -52,6 +52,7 @@
 					</p>
 				</section>
 				<section style="background: url('lolenterprise.gif');background-repeat: no-repeat; background-position: center; background-size: 50% 50%; background-color: white; ">
+					<p>&nbsp;</p>
 					<!-- Anaemic. CRUD. Read DDD. Attracted to Unruly, XP principles and interest in modelling in code. Made lots of mistakes along the way and hopefully learnt a few things to share  -->
 				</section>
 				<section style="background: url('unruly.png');background-repeat: no-repeat; background-position: center; background-size: 80% 38%; background-color: white; ">
